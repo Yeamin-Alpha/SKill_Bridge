@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from .models import Post, Comment, Upvote
+from .models import Post, Upvote, Notification
 from .forms import CommentForm
 from .models import Post
 from django.contrib import messages
@@ -20,6 +20,12 @@ def Posts(request):
                 num_upvotes=0
         )
         messages.success(request, "Post added successfully!")
+        other_users = User.objects.exclude(id=request.user.id)
+        for user in other_users:
+            Notification.objects.create(
+                user=user,
+                notification=f"{request.user.username} added a new post."
+            )
         return redirect('community')  # Redirect after adding the skill
 
     return render(request, 'add_post.html', {'message': messages})
@@ -50,6 +56,11 @@ def posts_with_comments(request):
                 comment.save()
                 post.num_comments += 1  # increment comment count on post
                 post.save()
+                if post.user != request.user:
+                    Notification.objects.create(
+                        user=post.user,
+                        notification=f"{request.user.username} commented on your post."
+                    )
                 return redirect('community')  # Refresh the page
 
     context = {
@@ -69,6 +80,11 @@ def toggle_upvote(request, post_id):
         post.num_upvotes += 1
         post.save()
         upvoted = True
+        if post.user != request.user:
+            Notification.objects.create(
+                user=post.user,
+                notification=f"{request.user.username} upvoted your post."
+            )
     else:
         # Upvote exists; remove it
         upvote.delete()
@@ -77,3 +93,10 @@ def toggle_upvote(request, post_id):
         upvoted = False
 
     return JsonResponse({'upvoted': upvoted, 'num_upvotes': post.num_upvotes})
+
+
+@login_required
+def notifications(request):
+    user_notifications = request.user.notifications.order_by('-timestamp')
+    return render(request, 'notifications.html', {'notifications': user_notifications})
+
