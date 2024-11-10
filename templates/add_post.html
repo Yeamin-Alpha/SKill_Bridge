@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <title>Skill-Bridge | Add Skill</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #e4d79c 0%, #eca2a2 100%);
+            color: #333;
+            padding: 20px;
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .floating-shape {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .shape1 { top: 5%; left: 5%; animation-delay: 0s; }
+        .shape2 { top: 20%; left: 85%; animation-delay: 2s; }
+        .shape3 { top: 75%; left: 20%; animation-delay: 4s; }
+
+        .container_post {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 450px;
+            z-index: 1;
+        }
+
+        .post-card {
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            animation: slideUp 0.6s ease-out;
+            border: 2px solid #f4f4f4;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .post-info label {
+            font-weight: 600;
+            color: #333;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-info_skill select,
+        .profile-info_skill input,
+        .profile-info_skill textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            font-size: 1rem;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .post-info input:focus,
+        .post-info textarea:focus {
+            border-color: #7b2cbf;
+            background-color: #fff;
+            outline: none;
+            box-shadow: 0 0 8px rgba(123, 44, 191, 0.3);
+        }
+
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(135deg, #7b2cbf, #9d4edd);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(123, 44, 191, 0.3);
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #9d4edd, #7b2cbf);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(123, 44, 191, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Floating shapes for background effect -->
+    <div class="floating-shape shape1"></div>
+    <div class="floating-shape shape2"></div>
+    <div class="floating-shape shape3"></div>
+
+    <div class="container_post">
+        <div class="post-card">
+            <div class="post-info">
+                <form method="post" action="{% url 'add_post' %}">
+                    {% csrf_token %}
+    
+                    <label for="post_description">Post</label>
+                    <textarea id="post_description" name="post_description" rows="3" placeholder="Write your post..."></textarea>
+    
+                    <div class="btn-group">
+                        <button type="submit" class="btn">Add Post</button>
+                    </div>
+                    {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    {% endif %}
+                                    
+                </form>
+            </div>
+        </div>
+    </div>
+    
+
+</body>
+
+</html>
