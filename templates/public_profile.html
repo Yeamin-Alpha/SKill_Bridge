@@ -1,0 +1,334 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <title>{{ public_profile.user.username }}'s Public Profile</title>
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        
+        .navbar a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            padding: 10px 20px;
+            transition: color 0.3s ease;
+        }
+        
+        .navbar a:hover {
+            color: #333;
+        }
+        
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .profile-header img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #f39c12;
+        }
+        
+        .profile-header h2 {
+            font-size: 1.6rem;
+            margin-top: 10px;
+            color: #222;
+        }
+        
+        .profile-header p {
+            color: #777;
+            margin-top: 5px;
+            font-size: 1rem;
+        }
+        
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 1rem;
+            margin-top: 15px;
+            color: #555;
+        }
+        
+        .profile-stats div {
+            text-align: center;
+        }
+        
+        .profile-stats strong {
+            display: block;
+            font-size: 1.3rem;
+            color: #333;
+        }
+        
+        .action-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .action-btn {
+            background-color: #f39c12;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background-color: #e67e22;
+        }
+        
+        .skills-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .skills-section h3 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .skill-card {
+            background-color: #f7f7f7;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .skill-card p {
+            margin-top: 5px;
+            font-size: 1rem;
+            color: #444;
+        }
+        
+        .skill-card .price {
+            color: #333;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .gallery-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        .gallery-section h3 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .gallery-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-card img:hover {
+            transform: scale(1.05);
+        }
+        
+        .add-image-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f7f7f7;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .add-image-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .add-image-btn {
+            font-size: 2rem;
+            color: #888;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="navbar">
+            <a href="{% url 'index' %}">Home</a>
+            <a href="#">Services</a>
+            <a href="#">Community</a>
+            <a href="{% url 'profile' %}">Profile</a>
+        </div>
+
+        
+        <div class="profile-header">
+            <img src="{{ public_profile.user.profile.image.url }}" alt="Profile Picture">
+            <h2>{{ public_profile.user.username }}</h2>
+            <p>{{ public_profile.user.profile.bio }}</p>
+            <div class="profile-stats">
+                <div>
+                    <strong>{{ rating }}</strong>
+                    <span>Rating</span>
+                </div>
+                <div>
+                    <strong>{{ followers_count }}</strong>
+                    <span>Followers</span>
+                </div>
+                <div>
+                    <strong>{{ following_count }}</strong>  
+                    <span>Following</span>
+                </div>
+            </div>
+        </div>
+        
+
+        
+        <div class="action-buttons">
+            {% if request.user.is_authenticated %}
+                {% if is_following %}
+                    <button class="action-btn">Following</button>
+                {% else %}
+                    <button class="action-btn">Follow</button>
+                {% endif %}
+                <button class="action-btn">Message</button>
+            {% endif %}
+        </div>
+
+        {%if user.profile.status == 'Professional' %}
+        <div class="skills-section">
+            <h3>Skills</h3>
+            <div class="skills-grid">
+                {% for skill in skills %}
+                    <div class="skill-card">
+                        <p><strong>{{ skill.name }}</strong></p>
+                        <p class="price">৳{{ skill.price }}</p>
+                    </div>
+                {% empty %}
+                    <p>No skills to display.</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Gallery Section -->
+        <div class="gallery-section">
+            <h3>Posts</h3>
+            <div class="gallery-grid">
+                {% for image in images %}
+                    <div class="gallery-card">
+                        <img src="{{ image.image.url }}" alt="Profile Image">
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Upload Button for Profile Owner -->
+            {% if is_owner %}
+                <div class="add-image-card">
+                    <form action="{% url 'public_profile' username=public_profile.user.username %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.image }}
+                        <button type="submit" class="add-image-btn">+</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const followButton = document.querySelector('.action-btn');
+            const username = "{{ public_profile.user.username }}";
+        
+            followButton.addEventListener('click', function() {
+                fetch(`/toggle_follow/${username}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.following) {
+                        followButton.textContent = "Following";
+                    } else {
+                        followButton.textContent = "Follow";
+                    }
+                    
+                    document.querySelector('.profile-stats div:nth-child(2) strong').textContent = data.followers_count;
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+        </script>
+</body>
+</html>

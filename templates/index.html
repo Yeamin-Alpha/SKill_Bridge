@@ -1,0 +1,374 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill-Bridge | Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+        }
+        .header {
+            background-color: #000000;
+            padding: 10px 0;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .header img {
+            width: 150px;
+        }
+
+        /* Navigation bar styles */
+       /* Navigation bar styling */
+nav {
+    background-color: #000000;
+    padding: 15px 30px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+   
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.3s;
+}
+
+/* Underline hover effect */
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: #f4a261;
+    transition: width 0.3s;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+nav ul li a:hover {
+    color: #f4a261;
+}
+
+/* Special styling for login and logout buttons */
+.btn-login, .btn-logout {
+    border: 2px solid transparent;
+    padding: 8px 18px;
+    border-radius: 20px;
+    transition: all 0.3s;
+}
+
+.btn-login:hover, .btn-logout:hover {
+    border-color: #f4a261;
+    color: #f4a261;
+}
+
+
+        .header img {
+            width: 150px;
+        }
+
+        .search-banner {
+            background-color: #000000;
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-banner h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .search-banner input {
+            width: 50%;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 25px;
+            border: 1px solid #c72f29;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-banner input:focus {
+            border-color: #f4a261;
+            box-shadow: 0px 4px 8px rgba(255, 99, 71, 0.2);
+        }
+
+        /* Floating shapes for background */
+        .floating-shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.20);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .shape1 { width: 150px; height: 150px; top: 10%; left: 10%; }
+        .shape2 { width: 100px; height: 100px; top: 30%; right: 10%; }
+        .shape3 { width: 120px; height: 120px; bottom: 20%; left: 25%; }
+        .shape4 { width: 120px; height: 120px; bottom: 15%; left: 50%; }
+
+        .services-menu {
+            display: flex;
+            justify-content: center;
+            padding: 30px;
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-link {
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .service-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            color: #c72f29;
+        }
+        
+        .service-link p {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        
+        .service-link i {
+            font-size: 36px;
+            color: #c72f29;
+            margin-bottom: 10px;
+        }
+                
+
+        .services-menu div {
+            margin: 0 20px;
+            text-align: center;
+        }
+
+        .services-menu div i {
+            font-size: 36px;
+            color: #c72f29;
+            margin-bottom: 10px;
+        }
+
+        .services-menu div p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .popular-services {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .popular-services h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .popular-services .service-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .service-grid div {
+            background-color: #e4e4e4;
+            width: 150px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .service-link img {
+            width: 80px;  /* Set a smaller width */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 10px;
+        }
+        .service-grid div img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .service-grid div p {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        footer {
+            padding: 20px;
+            background-color: #000000;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation bar -->
+<nav>
+    
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Community</a></li>
+        <li>
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}">Account</a>
+                <a href="{% url 'public_profile' username=user.username %}">Profile Card</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Log in | Sign up</a>
+            {% endif %}
+        </li>
+    </ul>
+</nav>
+<div class="header">
+    <img src="{% static 'media/mainlogo.jpg' %}" alt="SKILL Logo">
+</div>
+
+
+<!-- Search Banner -->
+<div class="search-banner">
+    <h1>Find the right <span style="color: #f4a261;">Skill</span> for your needs</h1>
+    <input type="text" placeholder="Search for any service...">
+</div>
+<div class="floating-shape shape1"></div>
+<div class="floating-shape shape2"></div>
+<div class="floating-shape shape3"></div>
+<div class="floating-shape shape4"></div>
+<!-- Services Menu with Icons -->
+<div class="services-menu">
+    <a href="#" class="service-link">    <!-- { url 'home_personal_services' }-->
+        <i class="fas fa-home"></i>
+        <p>Home & Personal Service</p>
+    </a>
+    <a href="#" class="service-link"> <!--{ url 'repair_maintenance' }-->
+        <i class="fas fa-tools"></i>
+        <p>Repair & Maintenance</p>
+    </a>
+    <a href="#" class="service-link"> <!--{ url 'arts_crafts' }-->
+        <i class="fas fa-paint-brush"></i>
+        <p>Arts & Crafts</p>
+    </a>
+    <a href="#" class="service-link"> <!--{ url 'educational_services' }-->
+        <i class="fas fa-book"></i>
+        <p>Educational</p>
+    </a>
+    <a href="#" class="service-link"> <!--{ url 'digital_technical' }-->
+        <i class="fas fa-laptop-code"></i>
+        <p>Digital & Technical</p>
+    </a>
+    <a href="#" class="service-link"> <!--{ url 'more_services' }-->
+        <i class="fas fa-ellipsis-h"></i>
+        <p>More</p>
+    </a>
+</div>
+
+
+<!-- Popular Services -->
+<div class="popular-services">
+    <h2>Popular Services</h2>
+    <div class="service-grid">
+        <a href="#" class="service-link">
+            <img src="{% static 'media/tutor.jpg' %}" alt="Service Image">  <!--{ url 'tutor_service' }-->
+            <p>Tutor</p>
+        </a>
+        <a href="#" class="service-link">
+            <img src="{% static 'media/care.jpg' %}" alt="Service Image">   <!--{ url 'baby_sitter_service' }-->
+            <p>Baby Sitter</p>
+        </a>
+        <a href="#" class="service-link">                                     <!--{ url 'gardening_service' }-->
+            <img src="{% static 'media/garden.jpg' %}" alt="Service Image">
+            <p>Gardening</p>
+        </a>
+        <a href="#" class="service-link">                                        <!--{ url 'graphics_design_service' }-->
+            <img src="{% static 'media/graphics.jpg' %}" alt="Service Image">
+            <p>Graphics Design</p>
+        </a>
+        <a href="#" class="service-link">                                    <!--{ url 'errand_running_service' }-->
+            <img src="{% static 'media/erand.jpg' %}" alt="Service Image">
+            <p>Errand Running</p>
+        </a>
+        <a href="#" class="service-link">                                    <!--{ url 'car_maintenance_service' }-->
+            <img src="{% static 'media/cars.jpg' %}" alt="Service Image">
+            <p>Car Maintenance</p>
+        </a>
+    </div>
+</div>
+
+
+<!-- Footer -->
+<footer>
+    <p>Share Your Skill</p>
+</footer>
+
+<script>
+    // JavaScript for floating shapes animation
+    const shapes = document.querySelectorAll('.floating-shape');
+
+    shapes.forEach(shape => {
+        animateShape(shape);
+    });
+
+    function animateShape(shape) {
+        const randomDuration = Math.random() * (10000 - 5000) + 5000; // Random duration between 5-10 seconds
+        const randomX = Math.random() * 100 - 50; // Random X movement
+        const randomY = Math.random() * 100 - 50; // Random Y movement
+
+        shape.animate([
+            { transform: `translate(0, 0)` },
+            { transform: `translate(${randomX}px, ${randomY}px)` },
+            { transform: `translate(0, 0)` }
+        ], {
+            duration: randomDuration,
+            iterations: Infinity,
+            easing: 'ease-in-out'
+        });
+    }
+</script>
+
+</body>
+</html>
