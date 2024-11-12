@@ -1,0 +1,322 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Community</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+    body {
+        font-family: 'Montserrat', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        overflow-x: hidden;
+    }
+    .header {
+        background-color: #000000;
+        padding: 10px 0;
+        color: white;
+    } 
+    nav {
+    background-color: #000000;
+    padding: 15px 30px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    }
+
+    nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    }
+
+    nav ul li {
+
+    }
+
+    nav ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.3s;
+    }
+
+/* Underline hover effect */
+    nav ul li a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: #f4a261;
+    transition: width 0.3s;
+    }
+
+    nav ul li a:hover::after {
+    width: 100%;
+    }
+
+    nav ul li a:hover {
+    color: #f4a261;
+    }
+
+
+    .header img {
+        height: 100px;
+        width: 100px;
+    }
+
+
+    .floating-shape {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.20);
+        border-radius: 50%;
+        z-index: 0;
+    }
+
+
+    footer {
+        padding: 20px;
+        background-color: #000000;
+        color: white;
+        text-align: center;
+    }
+
+    .posts-section {
+            margin-top: 30px;
+            text-align: center;
+    }
+        
+    .posts-section h2 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+    }
+    .posts-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Use a single column */
+    gap: 20px;
+    max-width: 600px; /* Set a max width to center-align the posts */
+    margin: 0 auto; /* Center the posts grid on the page */
+    }
+        
+    .post-card {
+            background-color: #f7f7f7;
+            border-radius: 10px;
+            padding: 15px;
+            text-align:justify;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .post-card h3 {
+    font-size: 1.5em;
+    color: #444;
+    }
+
+/* Like/Upvote Button Styling */
+    .upvote-btn {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 1em;
+        color: #888;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .upvote-btn.liked {
+        color: #e74c3c; /* Change color if upvoted */
+    }
+
+    /* Like Icon */
+    .upvote-btn:before {
+        content: '👍'; /* Like icon (can replace with a heart or other icon if desired) */
+        font-size: 1.2em;
+    }
+
+    .upvote-btn.liked:before {
+        content: '❤️'; /* Change to a filled heart icon if upvoted */
+    }
+
+    /* Comment Form Styling */
+    form {
+        margin-top: 10px;
+    }
+
+    form textarea {
+        width: 30%;
+        padding: 8px;
+        font-size: 1em;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        resize: vertical;
+        margin-bottom: 10px;
+    }
+
+    form button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+    }
+
+    form button:hover {
+        background-color: #0056b3;
+    }
+
+        
+    .post-card:hover {
+        transform: translateY(-5px);
+    }
+        
+    .post-card p {
+        margin-top: 5px;
+        font-size: 1rem;
+        color: #444;
+    }
+/* Comment List Styling */
+    .comment-list {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 10px;
+    }
+
+    .comment-list li {
+        background-color: #f5f5f5;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        position: relative;
+        padding-left: 60px;
+    }
+
+    .comment-list li strong {
+        color: #333;
+        font-size: 0.9em;
+        display: block;
+        font-weight: 600;
+    }
+
+    /* Comment User Avatar */
+    .comment-list li:before {
+        content: '👤'; /* Placeholder icon */
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.2em;
+        color: #888;
+    }
+
+    /* Comment Text */
+    .comment-list li p {
+        margin: 5px 0 0;
+        font-size: 0.9em;
+        color: #666;
+    }
+
+    
+</style>
+</head>
+<body>
+    <nav>
+        <div class="header">
+            <img src="{% static 'media/mainlogo.jpg' %}" alt="SKILL Logo">
+        </div>
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="#">Services</a></li>
+            <li>
+                {% if user.is_authenticated %}
+                <a href="{% url 'public_profile' username=user.username %}">Profile Card</a>
+                <a href="{% url 'add_post' %}" >Create Post</a>
+                <a href="{% url 'notifications' %}" >Notifications</a>
+                <a href="{% url 'logout' %}" >Logout</a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+
+    <div class="posts-section">
+        <h2>Posts</h2>
+        <div class="posts-grid">
+        {% for post in posts %}
+        <div class="post-card">
+            <h3>{{ post.user.username }}</h3>
+            <p>{{ post.post }}</p>
+            <p><strong>Upvotes:</strong> <span id="upvotes-{{ post.id }}">{{ post.num_upvotes }}</span></p>
+            
+            {% if request.user.is_authenticated %}
+                <button class="upvote-btn" data-post-id="{{ post.id }}">
+                    {% if post.id in upvoted_posts %}
+                        Undo Upvote
+                    {% else %}
+                        Upvote
+                    {% endif %}
+                </button>
+
+                <!-- Comment Form for Authenticated Users -->
+                <form method="POST" action="{% url 'community' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{ post.id }}">
+                    <textarea name="comment" placeholder="Add a comment..." rows="2" required></textarea>
+                    <button type="submit">Comment</button>
+                </form>
+            {% endif %}
+
+            <!-- Display Comments -->
+            <p><strong>Comments ({{ post.num_comments }}):</strong></p>
+            <ul class="comment-list">
+                {% for comment in post.comments.all %}
+                    <li><strong>{{ comment.user.username }}:</strong> {{ comment.comment }}</li>
+                {% empty %}
+                    <li>No comments yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <hr>
+        {% endfor %}
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $(".upvote-btn").click(function() {
+                const postId = $(this).data("post-id");
+                const button = $(this);
+
+                $.ajax({
+                    url: `/posts/${postId}/toggle_upvote/`,
+                    method: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    },
+                    success: function(response) {
+                        if (response.upvoted) {
+                            button.text('Undo Upvote');
+                        } else {
+                            button.text('Upvote');
+                        }
+                        $("#upvotes-" + postId).text(response.num_upvotes);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

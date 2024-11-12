@@ -58,7 +58,7 @@ def signup_page(request):
 @login_required
 def profile_page(request):
     user_profile_instance, created = profile.objects.get_or_create(user=request.user)
-    errors = {}  # Dictionary to store any validation errors
+    errors = {}  
 
     if request.method == 'POST':
         img = request.FILES.get('img')
@@ -69,7 +69,7 @@ def profile_page(request):
         phone = request.POST.get("phone")
         location = request.POST.get('location')
 
-        # Update fields if they have been provided
+        
         if img:
             user_profile_instance.image = img
         if bio:
@@ -79,7 +79,7 @@ def profile_page(request):
         if birthday:
             user_profile_instance.birthday = birthday
 
-        # Validate phone number
+        
         if phone:
             if phone.isdigit() and len(phone) == 11:
                 user_profile_instance.phone = phone
@@ -91,10 +91,10 @@ def profile_page(request):
         if location:
             user_profile_instance.location = location
         
-        # Save only if there are no errors
+        
         if not errors:
             user_profile_instance.save()
-            return redirect('profile')  # Redirect after saving
+            return redirect('profile')  
 
     return render(request, 'profile.html', {'profile': user_profile_instance, 'user': request.user, 'errors': errors})
 
@@ -124,20 +124,20 @@ def activate_professional_mode(request):
 
 @login_required
 def Skills(request):
-    skill_options = SkillOption.objects.all()  # Fetch all predefined skills
+    skill_options = SkillOption.objects.all()  
 
     if request.method == 'POST':
         skill_name = request.POST.get('skill_name')
         skill_description = request.POST.get('skill_description')
         skill_price = request.POST.get('skill_price')
         
-        # Check if the skill already exists for this user
+        
         existing_skill = Skill.objects.filter(user=request.user, name=skill_name).first()
         
         if existing_skill:
             messages.error(request, "You have already registered this skill.")
         else:
-            # Fetch the category from SkillOption and create the skill
+            
             skill_option = SkillOption.objects.get(name=skill_name)
             skill_category = skill_option.category
 
@@ -149,7 +149,7 @@ def Skills(request):
                 price=skill_price
             )
             messages.success(request, "Skill added successfully!")
-            return redirect('profile')  # Redirect after adding the skill
+            return redirect('profile')  
 
     return render(request, 'add_skill.html', {'skill_options': skill_options})
 
@@ -164,33 +164,33 @@ def view_skill(request):
 
 
 def public_profile(request, username):
-    # Get the user and the public profile
+    
     user = get_object_or_404(User, username=username)
     user_public_profile, created = PublicProfile.objects.get_or_create(user=user)
     
-    # Get skills and images associated with the user
+    
     skills = Skill.objects.filter(user=user)
     images = ProfileImage.objects.filter(user=user)
     
-    # Calculate followers and following counts
+    
     followers_count = user_public_profile.followers.count()
     following_count = user_public_profile.following.count() if hasattr(user_public_profile, 'following') else 0
-    rating = user_public_profile.rating  # Assuming rating is a field in PublicProfile
+    rating = user_public_profile.rating  
 
-    # Check if the logged-in user is following this profile
+    
     is_following = False
     if request.user.is_authenticated:
         is_following = user_public_profile.followers.filter(id=request.user.id).exists()
     
-    # Check if the logged-in user is the profile owner
+    
     is_owner = request.user == user
 
-    # Handle image upload if the request is POST and user is the owner
+    
     if request.method == 'POST' and is_owner:
         form = ProfileImageForm(request.POST, request.FILES)
         if form.is_valid():
             profile_image = form.save(commit=False)
-            profile_image.user = user  # Associate the uploaded image with the user
+            profile_image.user = user  
             profile_image.save()
             messages.success(request, "Image uploaded successfully!")
             return redirect('public_profile', username=username)
@@ -199,7 +199,7 @@ def public_profile(request, username):
     else:
         form = ProfileImageForm()
 
-    # Context for rendering the template
+    
     context = {
         'public_profile': user_public_profile,
         'skills': skills,
@@ -218,7 +218,7 @@ def public_profile(request, username):
 def toggle_follow(request, username):
     public_profile = get_object_or_404(PublicProfile, user__username=username)
     
-    # Toggle follow/unfollow
+    
     if public_profile.followers.filter(id=request.user.id).exists():
         public_profile.followers.remove(request.user)
         following = False
@@ -226,6 +226,6 @@ def toggle_follow(request, username):
         public_profile.followers.add(request.user)
         following = True
     
-    # No need to save as followers are a ManyToManyField, which saves changes automatically
+    
     followers_count = public_profile.followers.count()
     return JsonResponse({'following': following, 'followers_count': followers_count})
