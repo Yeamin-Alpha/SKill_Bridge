@@ -265,9 +265,9 @@
             {% if request.user.is_authenticated %}
                 <button class="upvote-btn" data-post-id="{{ post.id }}">
                     {% if post.id in upvoted_posts %}
-                        Undo Upvote
+                        Unlike
                     {% else %}
-                        Upvote
+                        Like
                     {% endif %}
                 </button>
 
