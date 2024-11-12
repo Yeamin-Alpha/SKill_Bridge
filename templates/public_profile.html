@@ -280,7 +280,7 @@
         </div>
         {% endif %}
 
-        <!-- Gallery Section -->
+        
         <div class="gallery-section">
             <h3>Posts</h3>
             <div class="gallery-grid">
@@ -290,8 +290,8 @@
                     </div>
                 {% endfor %}
             </div>
-            {% if is_owner %}
-              <a href="{% url 'booking_details' %}" class="btn btn-secondary">Booking Details</a>
+            {% if is_owner and user.profile.status == 'Professional' %}
+                <a href="{% url 'booking_details' %}" class="btn btn-secondary">Booking Details</a>
             {% endif %}
 
 
