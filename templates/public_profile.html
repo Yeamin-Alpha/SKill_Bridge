@@ -290,17 +290,18 @@
                     </div>
                 {% endfor %}
             </div>
-
-            <!-- Upload Button for Profile Owner -->
             {% if is_owner %}
-                <div class="add-image-card">
-                    <form action="{% url 'public_profile' username=public_profile.user.username %}" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {{ form.image }}
-                        <button type="submit" class="add-image-btn">+</button>
-                    </form>
-                </div>
+              <a href="{% url 'booking_details' %}" class="btn btn-secondary">Booking Details</a>
             {% endif %}
+
+
+            
+            {% if not is_owner %}
+                     <a href="{% url 'book_skill' username=public_profile.user.username %}">
+                     <button type="button">Book</button>
+                      </a>
+            {% endif %}
+
         </div>
     </div>
     <script>

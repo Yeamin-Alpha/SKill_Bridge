@@ -1,0 +1,76 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Payment Method</title>
+    
+</head>
+<body>
+    <div class="container">
+        <h2>Select Payment Method</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="payment-option">
+                <label>
+                    <input type="radio" name="payment_method" value="Bkash" required>
+                    Bkash
+                </label>
+            </div>
+
+            <div class="payment-option">
+                <label>
+                    <input type="radio" name="payment_method" value="Nagad" required>
+                    Nagad
+                </label>
+            </div>
+
+            <div class="payment-option">
+                <label>
+                    <input type="radio" name="payment_method" value="Upay" required>
+                    Upay
+                </label>
+            </div>
+
+            <div class="payment-option">
+                <label>
+                    <input type="radio" name="payment_method" value="Debit Card" required>
+                    Debit Card
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Confirm Payment</button>
+        </form>
+    </div>
+
+    <style>
+        /* Optional styling for payment options */
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .payment-option {
+            margin: 10px 0;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</body>
+</html>

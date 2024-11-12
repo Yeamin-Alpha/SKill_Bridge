@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Details</title>
+</head>
+<body>
+    <h2>Booking Details</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Booked By</th>
+                <th>Skill</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.booked_by.username }}</td>
+                    <td>{{ booking.skill.name }}</td>
+                    <td>{{ booking.booking_date }}</td>
+                    <td>{{ booking.booking_status }}</td>
+                    <td>
+                        {% if booking.booking_status == 'Confirmed' %}
+                            <a href="{% url 'cancel_booking' booking.id %}" class="btn btn-danger">Cancel</a>
+                        {% else %}
+                            Cancelled
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No bookings available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

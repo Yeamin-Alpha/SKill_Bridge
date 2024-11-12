@@ -1,0 +1,49 @@
+<!-- templates/book_skill.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Skill</title>
+   
+</head>
+<body>
+    <div class="container">
+        <h2>Book a Skill from {{ skill_user.username }}</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="skill">Select Skill:</label>
+                <select name="skill_id" id="skill" onchange="updatePrice(this)" required>
+                    <option value="" disabled selected>Select a skill</option>
+                    {% for skill in skills %}
+                        <option value="{{ skill.id }}" data-price="{{ skill.price }}">{{ skill.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="booking_date">Booking Date:</label>
+                <input type="text" id="booking_date" name="booking_date" value="{{ booking_date }}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="text" id="price" name="price" readonly>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Confirm Booking</button>
+        </form>
+    </div>
+
+    <script>
+        function updatePrice(select) {
+            const price = select.options[select.selectedIndex].getAttribute('data-price');
+            document.getElementById('price').value = price ? `৳${price}` : '';
+        }
+    </script>
+</body>
+</html>
