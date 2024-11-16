@@ -27,8 +27,7 @@
             width: 150px;
         }
 
-        /* Navigation bar styles */
-       /* Navigation bar styling */
+
 nav {
     background-color: #000000;
     padding: 15px 30px;
@@ -253,6 +252,7 @@ nav ul li a:hover {
     <ul>
         <li><a href="#">Home</a></li>
         <li><a href="#">Services</a></li>
+        <li><a href="{% url 'filter_skills' %}">Filter</a></li>
         <li><a href="{% url 'community' %}">Community</a></li>
         <li>
             {% if user.is_authenticated %}

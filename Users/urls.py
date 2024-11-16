@@ -19,5 +19,6 @@ urlpatterns = [
     path('view-skills/', views.view_skill, name='view_skill'),
     path('public_profile/<str:username>/', views.public_profile, name='public_profile'),
     path('toggle_follow/<str:username>/', views.toggle_follow, name='toggle_follow'),
+    path('filter-skills/', views.filter_skills, name='filter_skills'),
 
 ]

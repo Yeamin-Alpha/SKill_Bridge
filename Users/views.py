@@ -229,3 +229,5 @@ def toggle_follow(request, username):
     
     followers_count = public_profile.followers.count()
     return JsonResponse({'following': following, 'followers_count': followers_count})
+
+
