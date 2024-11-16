@@ -231,25 +231,25 @@ def toggle_follow(request, username):
     return JsonResponse({'following': following, 'followers_count': followers_count})
 
 def filter_skills(request):
-    # Fetch distinct categories and skill names from Skill model
+    
     categories = Skill.objects.values_list('category', flat=True).distinct()
     skill_names = Skill.objects.values_list('name', flat=True).distinct()
 
-    # Define divisions for filtering locations
+
     divisions = [
         'Dhaka', 'Chattogram', 'Khulna', 'Rajshahi', 'Barishal', 'Sylhet', 'Rangpur', 'Mymensingh'
     ]
 
-    # Get filter parameters from GET request
+    
     selected_category = request.GET.get('category')
     selected_skill_name = request.GET.get('skill_name')
     selected_location = request.GET.get('location')
     selected_rating = request.GET.get('rating')
 
-    # Base query: profiles with related users having public profiles (for ratings)
+   
     skill_users = profile.objects.filter(user__public_profile__isnull=False)
 
-    # Apply filters
+   
     if selected_category:
         skill_users = skill_users.filter(user__skills__category=selected_category)
     if selected_skill_name:
@@ -259,7 +259,7 @@ def filter_skills(request):
     if selected_rating:
         skill_users = skill_users.filter(user__public_profile__rating__gte=int(selected_rating))
 
-    # Remove duplicates
+    
     skill_users = skill_users.distinct()
 
     context = {
