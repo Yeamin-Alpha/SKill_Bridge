@@ -283,60 +283,56 @@ nav ul li a:hover {
 <div class="floating-shape shape4"></div>
 <!-- Services Menu with Icons -->
 <div class="services-menu">
-    <a href="#" class="service-link">    <!-- { url 'home_personal_services' }-->
+    <a href="{% url 'filter_skills' %}?category=Home%20%26%20Personal%20Service" class="service-link">
         <i class="fas fa-home"></i>
         <p>Home & Personal Service</p>
     </a>
-    <a href="#" class="service-link"> <!--{ url 'repair_maintenance' }-->
+    <a href="{% url 'filter_skills' %}?category=Repair%20%26%20Maintenance" class="service-link">
         <i class="fas fa-tools"></i>
         <p>Repair & Maintenance</p>
     </a>
-    <a href="#" class="service-link"> <!--{ url 'arts_crafts' }-->
+    <a href="{% url 'filter_skills' %}?category=Arts%20%26%20Crafts" class="service-link">
         <i class="fas fa-paint-brush"></i>
         <p>Arts & Crafts</p>
     </a>
-    <a href="#" class="service-link"> <!--{ url 'educational_services' }-->
+    <a href="{% url 'filter_skills' %}?category=Tutoring%20%26%20Mentorship" class="service-link">
         <i class="fas fa-book"></i>
         <p>Educational</p>
     </a>
-    <a href="#" class="service-link"> <!--{ url 'digital_technical' }-->
+    <a href="{% url 'filter_skills' %}?category=Digital%20%26%20Tech%20Skills" class="service-link">
         <i class="fas fa-laptop-code"></i>
         <p>Digital & Technical</p>
     </a>
-    <a href="#" class="service-link"> <!--{ url 'more_services' }-->
+    <a href="{% url 'filter_skills' %}" class="service-link">
         <i class="fas fa-ellipsis-h"></i>
         <p>More</p>
     </a>
 </div>
 
-
 <!-- Popular Services -->
 <div class="popular-services">
     <h2>Popular Services</h2>
     <div class="service-grid">
-        <a href="#" class="service-link">
-            <img src="{% static 'media/tutor.jpg' %}" alt="Service Image">  <!--{ url 'tutor_service' }-->
-            <p>Tutor</p>
+        <a href="{% url 'filter_skills' %}?skill_name=House Cleaning" class="service-link">
+            <img src="{% static 'media/tutor.jpg' %}" alt="Service Image">
+            <p>House Cleaning</p>
         </a>
-        <a href="#" class="service-link">
-            <img src="{% static 'media/care.jpg' %}" alt="Service Image">   <!--{ url 'baby_sitter_service' }-->
-            <p>Baby Sitter</p>
-        </a>
-        <a href="#" class="service-link">                                     <!--{ url 'gardening_service' }-->
+
+        <a href="{% url 'filter_skills' %}?skill_name=Gardening and Lawn Care" class="service-link">
             <img src="{% static 'media/garden.jpg' %}" alt="Service Image">
-            <p>Gardening</p>
+            <p>Gardening and Lawn Care</p>
         </a>
-        <a href="#" class="service-link">                                        <!--{ url 'graphics_design_service' }-->
+        <a href="{% url 'filter_skills' %}?skill_name=Graphic Design" class="service-link">
             <img src="{% static 'media/graphics.jpg' %}" alt="Service Image">
-            <p>Graphics Design</p>
+            <p>Graphic Design</p>
         </a>
-        <a href="#" class="service-link">                                    <!--{ url 'errand_running_service' }-->
+        <a href="{% url 'filter_skills' %}?skill_name=Errand Running" class="service-link">
             <img src="{% static 'media/erand.jpg' %}" alt="Service Image">
             <p>Errand Running</p>
         </a>
-        <a href="#" class="service-link">                                    <!--{ url 'car_maintenance_service' }-->
+        <a href="{% url 'filter_skills' %}?skill_name=Car Detailing and Maintenance" class="service-link">
             <img src="{% static 'media/cars.jpg' %}" alt="Service Image">
-            <p>Car Maintenance</p>
+            <p>Car Detailing</p>
         </a>
     </div>
 </div>

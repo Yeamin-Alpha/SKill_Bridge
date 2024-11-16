@@ -12,7 +12,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+
             min-height: 100vh;
             background: linear-gradient(135deg, #4a90e2, #9013fe);
             overflow: hidden;
@@ -59,60 +59,57 @@
         }
 
         nav {
-            background-color: #000;
+            background-color: #000000;
             padding: 15px 30px;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-            position: fixed;
+            display: flex;
+            justify-content: center;
+            position: sticky;
             top: 0;
             z-index: 10;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-
-        nav ul {
+            width:100%;
+            }
+            
+            nav ul {
             list-style: none;
             display: flex;
-            justify-content: center;
-            align-items: center;
             margin: 0;
             padding: 0;
-            width: 100%;
-            max-width: 1200px;
-        }
-
-        nav ul li {
-            flex: 1;
-            text-align: center;
-        }
-
-        nav ul li a {
+            }
+            
+            nav ul li {
+            
+            }
+            
+            nav ul li a {
             text-decoration: none;
             color: #ffffff;
+            padding: 10px 15px;
             font-size: 16px;
             font-weight: 500;
-            padding: 5px 10px;
-            display: inline-block;
+            position: relative;
             transition: color 0.3s;
-        }
-
-        nav ul li a::after {
+            }
+            
+            
+            nav ul li a::after {
             content: '';
-            display: block;
+            position: absolute;
+            left: 0;
+            bottom: 0;
             width: 0;
             height: 2px;
             background-color: #f4a261;
             transition: width 0.3s;
-            margin-top: 5px;
-        }
-
-        nav ul li a:hover::after {
+            }
+            
+            nav ul li a:hover::after {
             width: 100%;
-        }
-
-        nav ul li a:hover {
+            }
+            
+            nav ul li a:hover {
             color: #f4a261;
-        }
+            }
 
         .btn-login, .btn-logout {
             border: 2px solid transparent;
@@ -198,15 +195,18 @@
     <div class="floating-shape shape3"></div>
 
     <nav>
+    
         <ul>
-            <li><a href="{% url 'index' %}">Home</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Filter</a></li>
-            <li><a href="community">Community</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="{% url 'services_page' %}">Services</a></li>
+            <li><a href="{% url 'community' %}">Community</a></li>
             <li>
                 {% if user.is_authenticated %}
-                <a href="{% url 'public_profile' username=user.username %}">Profile Card</a>
-                <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                    <a href="{% url 'profile' %}">Account</a>
+                    <a href="{% url 'public_profile' username=user.username %}">Profile Card</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Log in | Sign up</a>
                 {% endif %}
             </li>
         </ul>
