@@ -6,9 +6,9 @@ from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Count,Avg
 from Users.forms import ProfileImageForm
-from .models import ProfileImage, SkillOption, profile, Skill, PublicProfile
+from .models import ProfileImage, SkillOption, profile, Skill, PublicProfile,Rating
 from django.contrib import messages
 
 
@@ -164,42 +164,24 @@ def view_skill(request):
 
 
 def public_profile(request, username):
-    
     user = get_object_or_404(User, username=username)
     user_public_profile, created = PublicProfile.objects.get_or_create(user=user)
-    
-    
+
     skills = Skill.objects.filter(user=user)
     images = ProfileImage.objects.filter(user=user)
-    
-    
-    followers_count = user_public_profile.followers.count()
-    following_count = user_public_profile.following.count() if hasattr(user_public_profile, 'following') else 0
-    rating = user_public_profile.rating  
 
-    
-    is_following = False
-    if request.user.is_authenticated:
-        is_following = user_public_profile.followers.filter(id=request.user.id).exists()
-    
-    
+    followers_count = user_public_profile.followers.count()
+    following_count = user_public_profile.following.count() 
+    rating = user_public_profile.rating
+
+   
+    is_following = request.user.is_authenticated and user_public_profile.followers.filter(id=request.user.id).exists()
+
     is_owner = request.user == user
 
-    
-    if request.method == 'POST' and is_owner:
-        form = ProfileImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            profile_image = form.save(commit=False)
-            profile_image.user = user  
-            profile_image.save()
-            messages.success(request, "Image uploaded successfully!")
-            return redirect('public_profile', username=username)
-        else:
-            messages.error(request, "Failed to upload image.")
-    else:
-        form = ProfileImageForm()
+   
+    has_rated = request.user.is_authenticated and Rating.objects.filter(rated_user=user, rated_by=request.user).exists()
 
-    
     context = {
         'public_profile': user_public_profile,
         'skills': skills,
@@ -209,47 +191,62 @@ def public_profile(request, username):
         'rating': rating,
         'is_following': is_following,
         'is_owner': is_owner,
-        'form': form,
+        'has_rated': has_rated,  
     }
 
     return render(request, 'public_profile.html', context)
 
+
+
 @login_required
 def toggle_follow(request, username):
-    public_profile = get_object_or_404(PublicProfile, user__username=username)
     
-    
+    user_to_follow = get_object_or_404(User, username=username)
+    public_profile = get_object_or_404(PublicProfile, user=user_to_follow)
+
+    logged_in_profile, created = PublicProfile.objects.get_or_create(user=request.user)
+
     if public_profile.followers.filter(id=request.user.id).exists():
+
         public_profile.followers.remove(request.user)
-        following = False
+
+        logged_in_profile.following.remove(user_to_follow)
+        messages.success(request, f"You unfollowed {user_to_follow.username}.")
     else:
+
         public_profile.followers.add(request.user)
-        following = True
-    
-    
-    followers_count = public_profile.followers.count()
-    return JsonResponse({'following': following, 'followers_count': followers_count})
+
+        logged_in_profile.following.add(user_to_follow)
+        messages.success(request, f"You followed {user_to_follow.username}.")
+
+
+    public_profile.save()
+    logged_in_profile.save()
+
+    return redirect('public_profile', username=username)
+
+
+
 
 def filter_skills(request):
-    
     categories = Skill.objects.values_list('category', flat=True).distinct()
     skill_names = Skill.objects.values_list('name', flat=True).distinct()
-
 
     divisions = [
         'Dhaka', 'Chattogram', 'Khulna', 'Rajshahi', 'Barishal', 'Sylhet', 'Rangpur', 'Mymensingh'
     ]
 
-    
     selected_category = request.GET.get('category')
     selected_skill_name = request.GET.get('skill_name')
     selected_location = request.GET.get('location')
     selected_rating = request.GET.get('rating')
 
-   
-    skill_users = profile.objects.filter(user__public_profile__isnull=False)
 
-   
+    skill_users = profile.objects.filter(
+        status='Professional',
+        user__public_profile__isnull=False
+    )
+
     if selected_category:
         skill_users = skill_users.filter(user__skills__category=selected_category)
     if selected_skill_name:
@@ -259,7 +256,6 @@ def filter_skills(request):
     if selected_rating:
         skill_users = skill_users.filter(user__public_profile__rating__gte=int(selected_rating))
 
-    
     skill_users = skill_users.distinct()
 
     context = {
@@ -273,3 +269,53 @@ def filter_skills(request):
         'selected_rating': selected_rating,
     }
     return render(request, 'filter_skills.html', context)
+
+
+
+
+def services_page(request):
+    categories = SkillOption.objects.values('category').annotate(skill_count=Count('name'))
+    skills = SkillOption.objects.all()
+    return render(request, 'services.html', {'categories': categories, 'skills': skills})
+
+
+
+@login_required
+def submit_rating(request, username):
+    if request.method == 'POST':
+        user_to_rate = get_object_or_404(User, username=username)
+
+        
+        if request.user == user_to_rate:
+            messages.error(request, "You cannot rate yourself.")
+            return redirect('public_profile', username=username)
+
+        
+        try:
+            rating_value = int(request.POST.get('rating_value'))
+        except (ValueError, TypeError):
+            messages.error(request, "Invalid rating value.")
+            return redirect('public_profile', username=username)
+
+        if rating_value < 1 or rating_value > 5:
+            messages.error(request, "Rating must be between 1 and 5.")
+            return redirect('public_profile', username=username)
+
+        
+        existing_rating = Rating.objects.filter(rated_user=user_to_rate, rated_by=request.user).first()
+        if existing_rating:
+            messages.error(request, "You have already rated this user.")
+            return redirect('public_profile', username=username)
+
+        
+        Rating.objects.create(rated_user=user_to_rate, rated_by=request.user, rating_value=rating_value)
+
+        
+        user_ratings = Rating.objects.filter(rated_user=user_to_rate)
+        average_rating = user_ratings.aggregate(Avg('rating_value'))['rating_value__avg']
+        user_to_rate.public_profile.rating = average_rating
+        user_to_rate.public_profile.save()
+
+        
+        messages.success(request, f"You successfully rated {user_to_rate.username} with a {rating_value}.")
+        return redirect('public_profile', username=username)

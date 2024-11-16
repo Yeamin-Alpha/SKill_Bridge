@@ -245,14 +245,15 @@ nav ul li a:hover {
         }
     </style>
 </head>
+<!--index.html-->
 <body>
 
-<!-- Navigation bar -->
+
 <nav>
     
     <ul>
         <li><a href="#">Home</a></li>
-        <li><a href="#">Services</a></li>
+        <li><a href="{% url 'services_page' %}">Services</a></li>
         <li><a href="{% url 'filter_skills' %}">Filter</a></li>
         <li><a href="{% url 'community' %}">Community</a></li>
         <li>
@@ -271,7 +272,7 @@ nav ul li a:hover {
 </div>
 
 
-<!-- Search Banner -->
+
 <div class="search-banner">
     <h1>Find the right <span style="color: #f4a261;">Skill</span> for your needs</h1>
     <input type="text" placeholder="Search for any service...">

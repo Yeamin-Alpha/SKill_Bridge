@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Filter Skill Users</title>
     <style>
-        /* Background and Floating Shapes */
         body {
             margin: 0;
             padding: 0;
@@ -26,90 +25,107 @@
             animation: float 8s infinite ease-in-out;
         }
 
-        .shape1 { width: 200px; height: 200px; background: #ffffff; top: 20%; left: 10%; }
-        .shape2 { width: 150px; height: 150px; background: #ffffff; bottom: 25%; right: 15%; }
-        .shape3 { width: 100px; height: 100px; background: #ffffff; top: 75%; left: 60%; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+        .shape1 {
+            width: 200px;
+            height: 200px;
+            background: #ffffff;
+            top: 20%;
+            left: 10%;
         }
 
-        
+        .shape2 {
+            width: 150px;
+            height: 150px;
+            background: #ffffff;
+            bottom: 25%;
+            right: 15%;
+        }
 
-nav {
-    background-color: #000;
-    padding: 15px 30px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-    position: fixed;
-    top: 0;
-    z-index: 10;
-    width: 100%; 
-    display: flex;
-    justify-content: center;
-}
+        .shape3 {
+            width: 100px;
+            height: 100px;
+            background: #ffffff;
+            top: 75%;
+            left: 60%;
+        }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    margin: 0;
-    padding: 0;
-    width: 100%; /* Full width of nav */
-    max-width: 1200px; /* Optional: limit width for larger screens */
-}
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
 
-nav ul li {
-    flex: 1; /* Each item takes equal space */
-    text-align: center;
-}
+        nav {
+            background-color: #000;
+            padding: 15px 30px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            z-index: 10;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
 
-nav ul li a {
-    text-decoration: none;
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 500;
-    padding: 5px 10px;
-    display: inline-block;
-    transition: color 0.3s;
-}
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            max-width: 1200px;
+        }
 
-/* Underline hover effect */
-nav ul li a::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 2px;
-    background-color: #f4a261;
-    transition: width 0.3s;
-    margin-top: 5px;
-}
+        nav ul li {
+            flex: 1;
+            text-align: center;
+        }
 
-nav ul li a:hover::after {
-    width: 100%;
-}
+        nav ul li a {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 5px 10px;
+            display: inline-block;
+            transition: color 0.3s;
+        }
 
-nav ul li a:hover {
-    color: #f4a261;
-}
+        nav ul li a::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background-color: #f4a261;
+            transition: width 0.3s;
+            margin-top: 5px;
+        }
 
+        nav ul li a:hover::after {
+            width: 100%;
+        }
 
+        nav ul li a:hover {
+            color: #f4a261;
+        }
 
-.btn-login, .btn-logout {
-    border: 2px solid transparent;
-    padding: 5px 15px;
-    border-radius: 20px;
-    transition: all 0.3s;
-}
+        .btn-login, .btn-logout {
+            border: 2px solid transparent;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
 
-.btn-login:hover, .btn-logout:hover {
-    border-color: #f4a261;
-    color: #f4a261;
-}
+        .btn-login:hover, .btn-logout:hover {
+            border-color: #f4a261;
+            color: #f4a261;
+        }
 
-
-        
         .filter-card {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
@@ -122,11 +138,10 @@ nav ul li a:hover {
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .filter-card h2 {
+        .filter-card h2, .filter-card h3 {
             margin-top: 0;
         }
 
-       
         form {
             display: flex;
             flex-direction: column;
@@ -162,7 +177,6 @@ nav ul li a:hover {
             background: #4a90e2;
         }
 
-        
         .results-list {
             list-style-type: none;
             padding: 0;
@@ -179,14 +193,11 @@ nav ul li a:hover {
     </style>
 </head>
 <body>
-    
     <div class="floating-shape shape1"></div>
     <div class="floating-shape shape2"></div>
     <div class="floating-shape shape3"></div>
 
-   
     <nav>
-        
         <ul>
             <li><a href="{% url 'index' %}">Home</a></li>
             <li><a href="#">Services</a></li>
@@ -200,10 +211,7 @@ nav ul li a:hover {
             </li>
         </ul>
     </nav>
-    
-    
 
-    
     <div class="filter-card">
         <h2>Filter Skill Users</h2>
         <form method="GET" action="{% url 'filter_skills' %}">
@@ -243,13 +251,14 @@ nav ul li a:hover {
         </form>
     </div>
 
-    
     <div class="filter-card">
         <h3>Results:</h3>
         <ul class="results-list">
             {% for user_profile in skill_users %}
                 <li>
-                    <strong>{{ user_profile.user.username }}</strong><br>
+                    <a href="{% url 'public_profile' username=user_profile.user.username %}">
+                        <strong>{{ user_profile.user.username }}</strong>
+                    </a><br>
                     Location: {{ user_profile.location }}<br>
                     Rating: {{ user_profile.user.public_profile.rating|default:"Not rated" }}<br>
                     Skills:
@@ -264,5 +273,6 @@ nav ul li a:hover {
             {% endfor %}
         </ul>
     </div>
+    
 </body>
 </html>

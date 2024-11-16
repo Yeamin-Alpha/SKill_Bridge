@@ -63,3 +63,16 @@ class ProfileImage(models.Model):
 
     def __str__(self):
         return f"Image uploaded by {self.user.username}"   
+    
+
+class Rating(models.Model):
+    rated_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ratings_received")
+    rated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ratings_given")
+    rating_value = models.PositiveSmallIntegerField(default=0)  
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('rated_user', 'rated_by') 
+
+    def __str__(self):
+        return f"{self.rated_by.username} rated {self.rated_user.username} - {self.rating_value}"

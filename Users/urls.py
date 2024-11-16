@@ -20,5 +20,7 @@ urlpatterns = [
     path('public_profile/<str:username>/', views.public_profile, name='public_profile'),
     path('toggle_follow/<str:username>/', views.toggle_follow, name='toggle_follow'),
     path('filter-skills/', views.filter_skills, name='filter_skills'),
+    path('services/', views.services_page, name='services_page'),
+    path('rate/<str:username>/', views.submit_rating, name='submit_rating'),
 
 ]
