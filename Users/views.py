@@ -320,5 +320,25 @@ def submit_rating(request, username):
         messages.success(request, f"You successfully rated {user_to_rate.username} with a {rating_value}.")
         return redirect('public_profile', username=username)
     
+def search(request):
+    query = request.GET.get('query', '').strip()
+
+    
+    users = User.objects.filter(
+        Q(username__icontains=query) | Q(profile__name__icontains=query)
+    ).distinct() if query else []
+
+    
+    skills = Skill.objects.filter(
+        Q(name__icontains=query) | Q(description__icontains=query) | Q(category__icontains=query)
+    ).distinct() if query else []
+
+    context = {
+        'query': query,
+        'users': users,
+        'skills': skills,
+    }
+
+    return render(request, 'search_results.html', context)
 
 
