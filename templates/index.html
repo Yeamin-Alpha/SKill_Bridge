@@ -28,70 +28,70 @@
         }
 
 
-nav {
-    background-color: #000000;
-    padding: 15px 30px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-    display: flex;
-    justify-content: center;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
+        nav {
+            background-color: #000000;
+            padding: 15px 30px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-}
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
 
-nav ul li {
-   
-}
+        nav ul li {
+        
+        }
 
-nav ul li a {
-    text-decoration: none;
-    color: #ffffff;
-    padding: 10px 15px;
-    font-size: 16px;
-    font-weight: 500;
-    position: relative;
-    transition: color 0.3s;
-}
+        nav ul li a {
+            text-decoration: none;
+            color: #ffffff;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
 
-/* Underline hover effect */
-nav ul li a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 0;
-    height: 2px;
-    background-color: #f4a261;
-    transition: width 0.3s;
-}
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #f4a261;
+            transition: width 0.3s;
+        }
 
-nav ul li a:hover::after {
-    width: 100%;
-}
+        nav ul li a:hover::after {
+            width: 100%;
+        }
 
-nav ul li a:hover {
-    color: #f4a261;
-}
+        nav ul li a:hover {
+            color: #f4a261;
+        }
 
-/* Special styling for login and logout buttons */
-.btn-login, .btn-logout {
-    border: 2px solid transparent;
-    padding: 8px 18px;
-    border-radius: 20px;
-    transition: all 0.3s;
-}
 
-.btn-login:hover, .btn-logout:hover {
-    border-color: #f4a261;
-    color: #f4a261;
-}
+        .btn-login, .btn-logout {
+            border: 2px solid transparent;
+            padding: 8px 18px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .btn-login:hover, .btn-logout:hover {
+            border-color: #f4a261;
+            color: #f4a261;
+        }
 
 
 
@@ -128,7 +128,7 @@ nav ul li a:hover {
             box-shadow: 0px 4px 8px rgba(255, 99, 71, 0.2);
         }
 
-        /* Floating shapes for background */
+       
         .floating-shape {
             position: absolute;
             background: rgba(255, 255, 255, 0.20);
@@ -221,8 +221,8 @@ nav ul li a:hover {
         }
 
         .service-link img {
-            width: 80px;  /* Set a smaller width */
-            height: auto; /* Maintain aspect ratio */
+            width: 80px;  
+            height: auto; 
             border-radius: 10px;
         }
         .service-grid div img {
@@ -242,6 +242,29 @@ nav ul li a:hover {
             background-color: #000000;
             color: white;
             text-align: center;
+        }
+        .search-banner button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #cacaca31; 
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+    
+        .search-banner button:hover {
+            background-color: #b3b0ae86; 
+            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+    
+        .search-banner button:active {
+            transform: translateY(1px);
+            box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -274,14 +297,20 @@ nav ul li a:hover {
 
 
 <div class="search-banner">
-    <h1>Find the right <span style="color: #f4a261;">Skill</span> for your needs</h1>
-    <input type="text" placeholder="Search for any service...">
+    <form action="/search/" method="get">
+        <input type="text" name="query" placeholder="Search for users or skills..." required><br>
+        <button type="submit">Search</button>
+    </form>
 </div>
+
+
+
+
 <div class="floating-shape shape1"></div>
 <div class="floating-shape shape2"></div>
 <div class="floating-shape shape3"></div>
 <div class="floating-shape shape4"></div>
-<!-- Services Menu with Icons -->
+
 <div class="services-menu">
     <a href="{% url 'filter_skills' %}?category=Home%20%26%20Personal%20Service" class="service-link">
         <i class="fas fa-home"></i>
@@ -309,7 +338,6 @@ nav ul li a:hover {
     </a>
 </div>
 
-<!-- Popular Services -->
 <div class="popular-services">
     <h2>Popular Services</h2>
     <div class="service-grid">
@@ -338,13 +366,13 @@ nav ul li a:hover {
 </div>
 
 
-<!-- Footer -->
+
 <footer>
     <p>Share Your Skill</p>
 </footer>
 
 <script>
-    // JavaScript for floating shapes animation
+   
     const shapes = document.querySelectorAll('.floating-shape');
 
     shapes.forEach(shape => {
@@ -352,9 +380,9 @@ nav ul li a:hover {
     });
 
     function animateShape(shape) {
-        const randomDuration = Math.random() * (10000 - 5000) + 5000; // Random duration between 5-10 seconds
-        const randomX = Math.random() * 100 - 50; // Random X movement
-        const randomY = Math.random() * 100 - 50; // Random Y movement
+        const randomDuration = Math.random() * (10000 - 5000) + 5000; 
+        const randomX = Math.random() * 100 - 50; 
+        const randomY = Math.random() * 100 - 50; 
 
         shape.animate([
             { transform: `translate(0, 0)` },

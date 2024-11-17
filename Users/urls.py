@@ -22,5 +22,6 @@ urlpatterns = [
     path('filter-skills/', views.filter_skills, name='filter_skills'),
     path('services/', views.services_page, name='services_page'),
     path('rate/<str:username>/', views.submit_rating, name='submit_rating'),
+    path('search/', views.search, name='search'),
 
 ]

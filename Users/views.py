@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count,Avg
+from django.db.models import Count,Avg,Q
 from Users.forms import ProfileImageForm
 from .models import ProfileImage, SkillOption, profile, Skill, PublicProfile,Rating
 from django.contrib import messages
@@ -319,3 +319,28 @@ def submit_rating(request, username):
         
         messages.success(request, f"You successfully rated {user_to_rate.username} with a {rating_value}.")
         return redirect('public_profile', username=username)
+    
+
+
+
+
+def search(request):
+    query = request.GET.get('query', '').strip()  # Get the search term from the request
+
+    # Search for all users matching the query (by username or profile name)
+    users = User.objects.filter(
+        Q(username__icontains=query) | Q(profile__name__icontains=query)
+    ).distinct() if query else []
+
+    # Search for all skills matching the query (by skill name, description, or category)
+    skills = Skill.objects.filter(
+        Q(name__icontains=query) | Q(description__icontains=query) | Q(category__icontains=query)
+    ).distinct() if query else []
+
+    context = {
+        'query': query,
+        'users': users,
+        'skills': skills,
+    }
+
+    return render(request, 'search_results.html', context)
