@@ -24,7 +24,7 @@ def book_skill(request, username):
         skill_id = request.POST.get('skill_id')
         selected_skill = Skill.objects.get(id=skill_id)
         
-        # Save booking details
+        
         Booking.objects.create(
             skill_user=skill_user,
             booked_by=request.user,
@@ -46,15 +46,15 @@ def payment_page(request):
     if request.method == 'POST':
         payment_method = request.POST.get('payment_method')
         
-        # Simulate payment completion
+       
         messages.success(request, f"Payment completed successfully using {payment_method}.")
-        return redirect('profile')  # Redirect back to profile or another success page after payment
+        return redirect('profile')  
 
     return render(request, 'payment_page.html') 
 
 @login_required
 def booking_details(request):
-    # Show all bookings made for the current skill user
+    
     bookings = Booking.objects.filter(skill_user=request.user)
 
     context = {
@@ -66,7 +66,7 @@ def booking_details(request):
 def cancel_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id, skill_user=request.user)
 
-    # Cancel the booking by updating the status
+    
     booking.booking_status = 'Cancelled'
     booking.save()
 

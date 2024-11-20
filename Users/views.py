@@ -325,7 +325,7 @@ def submit_rating(request, username):
 
 
 def search(request):
-    query = request.GET.get('query', '').strip()  # Get the search term from the request
+    query = request.GET.get('query', '').strip()  
 
     
     users = User.objects.filter(
