@@ -320,12 +320,8 @@ def submit_rating(request, username):
         messages.success(request, f"You successfully rated {user_to_rate.username} with a {rating_value}.")
         return redirect('public_profile', username=username)
     
-
-
-
-
 def search(request):
-    query = request.GET.get('query', '').strip()  
+    query = request.GET.get('query', '').strip()
 
     
     users = User.objects.filter(
@@ -344,3 +340,5 @@ def search(request):
     }
 
     return render(request, 'search_results.html', context)
+
+
