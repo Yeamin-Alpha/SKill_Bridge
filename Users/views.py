@@ -342,3 +342,12 @@ def search(request):
     return render(request, 'search_results.html', context)
 
 
+@login_required
+def upload_image(request):
+    if request.method == 'POST' and request.FILES.get('image'):
+        image_file = request.FILES['image']
+        ProfileImage.objects.create(user=request.user, image=image_file)
+        messages.success(request, "Image uploaded successfully!")
+    else:
+        messages.error(request, "Failed to upload image. Please try again.")
+    return redirect('public_profile', username=request.user.username)

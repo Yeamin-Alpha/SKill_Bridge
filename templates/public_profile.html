@@ -349,9 +349,18 @@
                 {% for image in images %}
                     <div class="gallery-card">
                         <img src="{{ image.image.url }}" alt="Profile Image">
+
                     </div>
                 {% endfor %}
             </div>
+            {% if is_owner %}
+                <form method="POST" enctype="multipart/form-data" action="{% url 'upload_image' %}">
+            {% csrf_token %}
+            <label for="image">Upload Image:</label>
+            <input type="file" name="image" id="image" accept="image/*" required>
+            <button type="submit">Post Image</button>
+            </form>
+             {% endif %}
 
             {% if is_owner and user.profile.status == 'Professional' %}
             
