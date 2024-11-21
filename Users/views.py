@@ -342,6 +342,8 @@ def search(request):
     return render(request, 'search_results.html', context)
 
 
+
+
 @login_required
 def upload_image(request):
     if request.method == 'POST' and request.FILES.get('image'):
