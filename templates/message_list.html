@@ -1,30 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages</title>
+</head>
+<body>
+    <h2>Received Messages</h2>
+    <ul>
+        {% for message in received_messages %}
+            <li>
+                From: {{ message.sender.username }} - {{ message.message }} ({{ message.sent_time }})
+                {% if not message.is_read %}<strong>(Unread)</strong>{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
 
-
-<h1>Your Messages</h1>
-
-<h2>Received Messages</h2>
-<ul>
-    {% for message in received_messages %}
-        <li>
-            <strong>From:</strong> {{ message.sender.user.username }}<br>
-            <strong>Message:</strong> {{ message.message }}<br>
-            <strong>Time:</strong> {{ message.sent_time }}<br>
-            {% if not message.is_read %}
-                <a href="{% url 'mark_as_read' message.id %}">Mark as Read</a>
-            {% else %}
-                <em>Read</em>
-            {% endif %}
-        </li>
-    {% endfor %}
-</ul>
-
-<h2>Sent Messages</h2>
-<ul>
-    {% for message in sent_messages %}
-        <li>
-            <strong>To:</strong> {{ message.receiver.username }}<br>
-            <strong>Message:</strong> {{ message.message }}<br>
-            <strong>Time:</strong> {{ message.sent_time }}
-        </li>
-    {% endfor %}
-</ul>
+    <h2>Sent Messages</h2>
+    <ul>
+        {% for message in sent_messages %}
+            <li>
+                To: {{ message.receiver.username }} - {{ message.message }} ({{ message.sent_time }})
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
