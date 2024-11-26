@@ -9,6 +9,7 @@ urlpatterns = [
     path('', include('Users.urls')),
     path('', include('community.urls')),
     path('payments/', include('payments.urls')), 
+    path('messages/', include('message.urls')),
 
 
 ]

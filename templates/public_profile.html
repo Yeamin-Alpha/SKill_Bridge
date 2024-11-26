@@ -306,9 +306,7 @@
                 </div>
             </div>
         </div>
-        
-
-        
+                
         
         <div class="action-buttons">
             {% if request.user.is_authenticated and not is_owner %}
@@ -320,7 +318,8 @@
                         <button type="submit" class="action-btn">Follow</button>
                     {% endif %}
                 </form>
-                <button class="action-btn">Message</button>
+                
+                <a href="{% url 'chat_interface' public_profile.user.username %}" class="btn btn-primary"><button class="action-btn" he>Message</button> </a>
             {% endif %}
             
         </div>
@@ -395,7 +394,7 @@
         
     </div>
     
-    
+
     
     <script>
         document.addEventListener('DOMContentLoaded', function () {
