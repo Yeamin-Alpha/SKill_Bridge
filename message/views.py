@@ -55,9 +55,12 @@ def message_list(request):
         'sent_messages': sent_messages,
     })
 @login_required
-def search_users(request):
 
-    query = request.GET.get('query', '').strip()
-    users = User.objects.filter(username__icontains=query).exclude(id=request.user.id) if query else []
-    return render(request, 'user_search.html', {'users': users, 'query': query})
+def search_users(request):
+    query = request.GET.get('query')
+    users = User.objects.filter(username__icontains=query)
+    if users.exists():
+        return redirect('chat_interface', username=users.first().username)
+    return render(request, 'user_search.html', {'users': users})
+
 
